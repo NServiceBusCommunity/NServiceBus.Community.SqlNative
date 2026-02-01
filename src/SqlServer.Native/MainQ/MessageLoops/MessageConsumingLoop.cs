@@ -77,7 +77,14 @@ public class MessageConsumingLoop :
         }
         finally
         {
+#if NET48
             transaction?.Dispose();
+#else
+            if (transaction != null)
+            {
+                await transaction.DisposeAsync();
+            }
+#endif
 
             connection?.Dispose();
         }

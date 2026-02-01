@@ -129,7 +129,10 @@
 #if !NET48
     [Obsolete("This Remoting API is not supported and throws PlatformNotSupportedException.", DiagnosticId = "SYSLIB0010", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
 #endif
+    // Nullability of return type doesn't match overridden member (possibly because of nullability attributes).
+#pragma warning disable CS8764
     public override object? InitializeLifetimeService() =>
+#pragma warning restore CS8764
         inner.InitializeLifetimeService();
 
     public override bool Equals(object? obj) =>

@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using NServiceBus.Logging;
+﻿using NServiceBus.Logging;
 using NServiceBus.Pipeline;
 using NServiceBus.Transport;
 using NServiceBus.Transport.SqlServerDeduplication;
