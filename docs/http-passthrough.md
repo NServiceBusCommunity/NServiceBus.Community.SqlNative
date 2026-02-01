@@ -7,7 +7,7 @@ To change this file edit the source file and then run MarkdownSnippets.
 
 # SQL HTTP Passthrough
 
-SQL HTTP Passthrough provides a bridge between an HTTP stream (via JavaScript on a web page) and the [SQL Server transport](https://docs.particular.net/transports/sql/). It leverages SQL Transport - Native and [SQL Attachments](https://github.com/NServiceBusExtensions/NServiceBus.Community.Attachments).
+SQL HTTP Passthrough provides a bridge between an HTTP stream (via JavaScript on a web page) and the [SQL Server transport](https://docs.particular.net/transports/sql/). It leverages SQL Transport - Native and [SQL Attachments](https://github.com/NServiceBusCommunity/NServiceBus.Community.Attachments).
 
 
 ## Design

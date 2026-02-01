@@ -370,4 +370,4 @@ See [docs/http-passthrough.md](docs/http-passthrough.md).
 
 ## Icon
 
-[Spear](https://thenounproject.com/term/spear/814550/) designed by [Aldric Rodríguez](https://thenounproject.com/aldricroib2/) from [The Noun Project](https://thenounproject.com/).
+[Spear](https://thenounproject.com/icon/spear-814550/) designed by [Aldric Rodríguez](https://thenounproject.com/aldricroib2/) from [The Noun Project](https://thenounproject.com/).
