@@ -13,7 +13,7 @@ SQL HTTP Passthrough is designed to be consumed by any web application built on 
 
 ### Deduplication
 
-To handle intermittent connectivity issues it is desirable to have a web client leverage a retry mechanism so if a request fails, the same request can be immediately re-sent. To prevent this resulting in duplicate message being placed on the queue, message deduplication has to occur. SQL HTTP Passthrough leverages the [deduplication feature](/transports/sql/sql-native.md#Deduplication) of SQL Transport - Native.
+To handle intermittent connectivity issues it is desirable to have a web client leverage a retry mechanism so if a request fails, the same request can be immediately re-sent. To prevent this resulting in duplicate message being placed on the queue, message deduplication has to occur. SQL HTTP Passthrough leverages the [deduplication feature](../../readme.md#deduplication) of SQL Transport - Native.
 
 
 ### Data and attachments
@@ -123,7 +123,7 @@ snippet: PostToBus
 
 #### MessageId generation
 
-For deduplication to operate, the client must generate a [MessageId](/nservicebus/messaging/message-identity.md), so that any retries can be ignored. JavaScript does not contain native functionality to generate a GUID, so a helper method is used. 
+For deduplication to operate, the client must generate a [MessageId](https://docs.particular.net/nservicebus/messaging/message-identity), so that any retries can be ignored. JavaScript does not contain native functionality to generate a GUID, so a helper method is used. 
 
 snippet: Guid
 
