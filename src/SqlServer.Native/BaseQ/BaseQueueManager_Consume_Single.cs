@@ -13,8 +13,12 @@ public abstract partial class BaseQueueManager<TIncoming, TOutgoing>
             reader = await command.RunSingleRowReader(cancel);
             if (!await reader.ReadAsync(cancel))
             {
+#if NET48
                 reader.Dispose();
-                return default;
+#else
+                await reader.DisposeAsync();
+#endif
+                return null;
             }
 
             return await ReadMessage(reader, reader.DisposeAsync);
@@ -28,7 +32,11 @@ public abstract partial class BaseQueueManager<TIncoming, TOutgoing>
         {
             if (shouldCleanup && reader != null)
             {
+#if NET48
                 reader.Dispose();
+#else
+                await reader.DisposeAsync();
+#endif
             }
         }
     }

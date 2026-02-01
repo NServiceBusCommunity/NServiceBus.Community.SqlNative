@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using NServiceBus.Features;
+﻿using NServiceBus.Features;
 using NServiceBus.Transport.SqlServerDeduplication;
 
 class CleanupTask(

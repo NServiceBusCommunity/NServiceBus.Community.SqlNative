@@ -1,6 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-
-static class SqlExtensions
+﻿static class SqlExtensions
 {
     public static string Sanitize(string unquotedIdentifier)
     {

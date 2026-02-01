@@ -31,7 +31,11 @@ public abstract partial class BaseQueueManager<TIncoming, TOutgoing>
         {
             if (shouldCleanup && reader != null)
             {
+#if NET48
                 reader.Dispose();
+#else
+                await reader.DisposeAsync();
+#endif
             }
         }
     }

@@ -72,7 +72,14 @@ public class IncomingDelayedMessage :
             return;
         }
 
+#if NET48
         Body?.Dispose();
+#else
+        if (Body != null)
+        {
+            await Body.DisposeAsync();
+        }
+#endif
 
         disposed = true;
         foreach (var cleanup in cleanups)

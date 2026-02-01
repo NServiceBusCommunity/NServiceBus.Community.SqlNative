@@ -12,7 +12,7 @@ public abstract class MessageLoop :
         Action<Exception> errorCallback,
         TimeSpan? delay = null)
     {
-        Guard.AgainstNegativeAndZero(delay, nameof(delay));
+        Guard.AgainstNegativeAndZero(delay);
         this.errorCallback = errorCallback.WrapFunc(nameof(errorCallback));
         this.delay = delay.GetValueOrDefault(TimeSpan.FromMinutes(1));
     }

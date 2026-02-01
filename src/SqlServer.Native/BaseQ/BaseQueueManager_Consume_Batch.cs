@@ -13,7 +13,7 @@ public abstract partial class BaseQueueManager<TIncoming, TOutgoing>
 
     public virtual async Task<IncomingResult> Consume(int size, Func<TIncoming, Cancel, Task> func, Cancel cancel = default)
     {
-        Guard.AgainstNegativeAndZero(size, nameof(size));
+        Guard.AgainstNegativeAndZero(size);
         using var command = BuildConsumeCommand(size);
         return await ReadMultiple(command, func, cancel);
     }

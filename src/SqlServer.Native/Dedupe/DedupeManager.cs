@@ -1,7 +1,6 @@
 ﻿using System.Data;
-using Microsoft.Data.SqlClient;
 
-#if (SqlServerDedupe)
+#if SqlServerDedupe
 namespace NServiceBus.Transport.SqlServerDeduplication;
 #else
 namespace NServiceBus.Transport.SqlServerNative;

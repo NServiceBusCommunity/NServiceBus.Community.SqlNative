@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using NServiceBus.Pipeline;
+﻿using NServiceBus.Pipeline;
 using NServiceBus.Transport.SqlServerDeduplication;
 
 class SendRegistration(Table table, Func<Cancel, Task<SqlConnection>> connectionBuilder) :

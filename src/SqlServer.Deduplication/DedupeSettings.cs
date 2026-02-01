@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using NServiceBus.Transport.SqlServerDeduplication;
+﻿using NServiceBus.Transport.SqlServerDeduplication;
 
 namespace NServiceBus;
 
