@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyName>NServiceBus.SqlServer.Native</AssemblyName>
-    <PackageName>NServiceBus.SqlServer.Native</PackageName>
-    <TargetFrameworks>net48;net9.0</TargetFrameworks>
+    <AssemblyName>NServiceBus.Community.SqlServer.Native</AssemblyName>
+    <PackageName>NServiceBus.Community.SqlServer.Native</PackageName>
+    <TargetFrameworks>net48;net10.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" />

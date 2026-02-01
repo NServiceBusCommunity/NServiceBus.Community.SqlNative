@@ -7,7 +7,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
 
-    <PackageReference Include="NServiceBus.Attachments.Sql.Raw" />
+    <PackageReference Include="NServiceBus.Community.Attachments.Sql.Raw" />
     <PackageReference Include="Microsoft.Data.SqlClient" />
     <ProjectReference Include="..\Shared\Shared.csproj" />
     <ProjectReference Include="..\SqlServer.HttpPassthrough\SqlServer.HttpPassthrough.csproj" />

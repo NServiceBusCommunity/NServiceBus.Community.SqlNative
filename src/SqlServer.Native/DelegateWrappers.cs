@@ -17,7 +17,7 @@
             }
         };
 
-    static void ThrowIfNull(string name, object value)
+    static void ThrowIfNull(string name, object? value)
     {
         if (value == null)
         {

@@ -129,7 +129,7 @@
 #if !NET48
     [Obsolete("This Remoting API is not supported and throws PlatformNotSupportedException.", DiagnosticId = "SYSLIB0010", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
 #endif
-    public override object InitializeLifetimeService() =>
+    public override object? InitializeLifetimeService() =>
         inner.InitializeLifetimeService();
 
     public override bool Equals(object? obj) =>

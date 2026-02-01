@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyName>NServiceBus.SqlServer.Deduplication</AssemblyName>
-    <PackageName>NServiceBus.SqlServer.Deduplication</PackageName>
+    <AssemblyName>NServiceBus.Community.SqlServer.Deduplication</AssemblyName>
+    <PackageName>NServiceBus.Community.SqlServer.Deduplication</PackageName>
     <TargetFramework>net10.0</TargetFramework>
     <Description>Message deduplication for the SQL Server transport.</Description>
     <DefineConstants>$(DefineConstants);SqlServerDedupe</DefineConstants>

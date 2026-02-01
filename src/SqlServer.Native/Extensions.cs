@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using Microsoft.Data.SqlClient;
 
 static class Extensions
 {

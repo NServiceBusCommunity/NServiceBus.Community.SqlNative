@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyName>NServiceBus.SqlServer.HttpPassthrough</AssemblyName>
-    <PackageName>NServiceBus.SqlServer.HttpPassthrough</PackageName>
+    <AssemblyName>NServiceBus.Community.SqlServer.HttpPassthrough</AssemblyName>
+    <PackageName>NServiceBus.Community.SqlServer.HttpPassthrough</PackageName>
     <TargetFramework>net10.0</TargetFramework>
     <Description>HTTP passthrough for the SQL Server transport.</Description>
   </PropertyGroup>
@@ -10,7 +10,7 @@
     <PackageReference Include="Microsoft.Data.SqlClient" />
     <PackageReference Include="ConfigureAwait.Fody" PrivateAssets="All" />
     <PackageReference Include="Fody" PrivateAssets="all" />
-    <PackageReference Include="NServiceBus.Attachments.Sql.Raw" />
+    <PackageReference Include="NServiceBus.Community.Attachments.Sql.Raw" />
     <ProjectReference Include="..\SqlServer.Native\SqlServer.Native.csproj" />
     <PackageReference Include="ProjectDefaults" PrivateAssets="all" />
   </ItemGroup>

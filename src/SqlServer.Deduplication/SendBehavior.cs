@@ -18,7 +18,7 @@ class SendBehavior(Table table, Func<Cancel, Task<SqlConnection>> builder) :
         }
 
         var connectionTask = builder(Cancel.None);
-        if (context.Extensions.TryGet(out TransportTransaction _))
+        if (context.Extensions.TryGet(out TransportTransaction? _))
         {
             throw new NotSupportedException("Deduplication is currently designed to be used from outside the NServiceBus pipeline. For example to dedup messages being sent from inside a web service endpoint.");
         }

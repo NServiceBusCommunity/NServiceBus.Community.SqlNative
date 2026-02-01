@@ -13,7 +13,7 @@ class DedupePipelineState
         [NotNullWhen(true)]
         out DedupePipelineState? state)
     {
-        if (context.Extensions.TryGet(out DedupePipelineState found))
+        if (context.Extensions.TryGet(out DedupePipelineState? found))
         {
             state = found;
             return true;
