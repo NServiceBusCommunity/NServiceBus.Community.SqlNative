@@ -1,4 +1,6 @@
-﻿public class MessageConsumingLoopTests :
+﻿using System.Threading.Tasks;
+
+public class MessageConsumingLoopTests :
     TestBase
 {
     static DateTime dateTime = new(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc);
@@ -26,7 +28,7 @@
     //     Assert.Null(exception!);
     // }
 
-    [Fact]
+    [Test]
     public async Task Should_get_correct_count()
     {
         var resetEvent = new ManualResetEvent(false);
@@ -57,7 +59,7 @@
             });
         loop.Start();
         resetEvent.WaitOne(TimeSpan.FromSeconds(30));
-        Assert.Equal(5, count);
+        await Assert.That(count).IsEqualTo(5);
     }
 
     Task SendMessages()

@@ -14,12 +14,11 @@
     <PackageReference Include="NServiceBus" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" />
     <PackageReference Include="Verify.SqlServer" />
-    <PackageReference Include="Verify.XunitV3" />
+    <PackageReference Include="Verify.TUnit" />
     <PackageReference Include="DiffEngine" />
     <PackageReference Include="EmptyFiles" />
     <PackageReference Include="SimpleInfoName" />
     <PackageReference Include="Verify" />
-    <PackageReference Include="xunit.v3" />
     <ProjectReference Include="..\Shared\Shared.csproj" />
     <ProjectReference Include="..\SqlServer.Deduplication\SqlServer.Deduplication.csproj" />
     <ProjectReference Include="..\SqlServer.HttpPassthrough.SampleEndpoint\SqlServer.HttpPassthrough.SampleEndpoint.csproj" />
@@ -28,5 +27,6 @@
     <ProjectReference Include="..\SqlServer.Native\SqlServer.Native.csproj" />
     <PackageReference Include="ProjectDefaults" PrivateAssets="all" />
     <Using Include="NServiceBus.IMessageHandlerContext" Alias="HandlerContext" />
+    <PackageReference Include="TUnit" />
   </ItemGroup>
 </Project>

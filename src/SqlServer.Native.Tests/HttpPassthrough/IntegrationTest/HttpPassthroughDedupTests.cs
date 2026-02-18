@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using System.Threading.Tasks;
 #pragma warning disable ASPDEPR008
 #pragma warning disable ASPDEPR004
 
@@ -7,7 +8,7 @@ public class HttpPassthroughDedupTests :
     TestBase
 {
     static int count;
-    [Fact]
+    [Test]
     public async Task Integration()
     {
         await using (var connection = Connection.OpenConnection())
@@ -27,15 +28,15 @@ public class HttpPassthroughDedupTests :
             var clientFormSender = new ClientFormSender(client);
             var guid = Guid.NewGuid();
             var first = await SendAsync(clientFormSender, guid);
-            Assert.Equal(202, first);
+            await Assert.That(first).IsEqualTo(202);
             var second = await SendAsync(clientFormSender, guid);
-            Assert.Equal(208, second);
+            await Assert.That(second).IsEqualTo(208);
         }
 
         Thread.Sleep(3000);
 
         await endpoint.Stop();
-        Assert.Equal(1, count);
+        await Assert.That(count).IsEqualTo(1);
     }
 
     static async Task<int> SendAsync(ClientFormSender clientFormSender, Guid guid)

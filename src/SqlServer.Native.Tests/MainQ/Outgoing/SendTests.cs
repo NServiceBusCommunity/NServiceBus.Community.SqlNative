@@ -1,11 +1,13 @@
-﻿public class SendTests :
+﻿using System.Threading.Tasks;
+
+public class SendTests :
     TestBase
 {
     static DateTime dateTime = new(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc);
 
     string table = "SendTests";
 
-    [Fact]
+    [Test]
     public async Task Single_bytes()
     {
         var message = BuildBytesMessage("00000000-0000-0000-0000-000000000001");
@@ -13,7 +15,7 @@
         await Verify(SqlHelper.ReadData(table, SqlConnection));
     }
 
-    [Fact]
+    [Test]
     public async Task Single_with_transaction()
     {
         var message = BuildBytesMessage("00000000-0000-0000-0000-000000000001");
@@ -24,7 +26,7 @@
         await Verify(SqlHelper.ReadData(table, SqlConnection));
     }
 
-    [Fact]
+    [Test]
     public async Task Single_bytes_nulls()
     {
         var sender = new QueueManager("SendTests", SqlConnection);
@@ -34,7 +36,7 @@
         await Verify(SqlHelper.ReadData(table, SqlConnection));
     }
 
-    [Fact]
+    [Test]
     public async Task Single_stream()
     {
         var message = BuildStreamMessage("00000000-0000-0000-0000-000000000001");
@@ -42,7 +44,7 @@
         await Verify(SqlHelper.ReadData(table, SqlConnection));
     }
 
-    [Fact]
+    [Test]
     public async Task Single_stream_nulls()
     {
         var message = BuildStreamMessage("00000000-0000-0000-0000-000000000001");
@@ -50,7 +52,7 @@
         await Verify(SqlHelper.ReadData(table, SqlConnection));
     }
 
-    [Fact]
+    [Test]
     public async Task Batch()
     {
         var messages = new List<OutgoingMessage>
@@ -62,7 +64,7 @@
         await Verify(SqlHelper.ReadData(table, SqlConnection));
     }
 
-    [Fact]
+    [Test]
     public async Task Batch_nulls()
     {
         var messages = new List<OutgoingMessage>

@@ -1,10 +1,12 @@
-﻿public class DelayedSenderTests :
+﻿using System.Threading.Tasks;
+
+public class DelayedSenderTests :
     TestBase
 {
     string table = "DelayedSenderTests";
     static DateTime dateTime = new(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc);
 
-    [Fact]
+    [Test]
     public async Task Single_bytes()
     {
         var message = BuildBytesMessage();
@@ -12,7 +14,7 @@
         await Verify(SqlHelper.ReadDelayedData(table, SqlConnection));
     }
 
-    [Fact]
+    [Test]
     public async Task Single_bytes_nulls()
     {
         var message = BuildBytesNullMessage();
@@ -20,7 +22,7 @@
         await Verify(SqlHelper.ReadDelayedData(table, SqlConnection));
     }
 
-    [Fact]
+    [Test]
     public async Task Single_stream()
     {
         var message = BuildStreamMessage();
@@ -28,7 +30,7 @@
         await Verify(SqlHelper.ReadDelayedData(table, SqlConnection));
     }
 
-    [Fact]
+    [Test]
     public async Task Single_stream_nulls()
     {
         var sender = new DelayedQueueManager(table, SqlConnection);
@@ -38,7 +40,7 @@
         await Verify(SqlHelper.ReadDelayedData(table, SqlConnection));
     }
 
-    [Fact]
+    [Test]
     public async Task Batch()
     {
         var messages = new List<OutgoingDelayedMessage>
@@ -50,7 +52,7 @@
         await Verify(SqlHelper.ReadDelayedData(table, SqlConnection));
     }
 
-    [Fact]
+    [Test]
     public async Task Batch_nulls()
     {
         var messages = new List<OutgoingDelayedMessage>

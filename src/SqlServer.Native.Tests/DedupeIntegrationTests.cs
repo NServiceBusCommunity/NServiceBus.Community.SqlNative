@@ -1,23 +1,24 @@
 ﻿using NServiceBus.Attachments.Sql;
 using DedupeOutcome = NServiceBus.Transport.SqlServerDeduplication.DedupeOutcome;
 using DedupeResult = NServiceBus.Transport.SqlServerDeduplication.DedupeResult;
+using System.Threading.Tasks;
 
 public class DedupeIntegrationTests :
     TestBase
 {
     static CountdownEvent countdown = new(2);
 
-    [Fact]
+    [Test]
     public async Task Integration()
     {
         var endpoint = await StartEndpoint();
         var messageId = Guid.NewGuid();
         var result = await SendMessage(messageId, endpoint, "context1");
-        Assert.Equal("context1", result.Context);
-        Assert.Equal(DedupeOutcome.Sent, result.DedupeOutcome);
+        await Assert.That(result.Context).IsEqualTo("context1");
+        await Assert.That(result.DedupeOutcome).IsEqualTo(DedupeOutcome.Sent);
         result = await SendMessage(messageId, endpoint, "context2");
-        Assert.Equal("context1", result.Context);
-        Assert.Equal(DedupeOutcome.Deduplicated, result.DedupeOutcome);
+        await Assert.That(result.Context).IsEqualTo("context1");
+        await Assert.That(result.DedupeOutcome).IsEqualTo(DedupeOutcome.Deduplicated);
         if (!countdown.Wait(TimeSpan.FromSeconds(20)))
         {
             throw new("Expected dedup");

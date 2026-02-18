@@ -1,9 +1,10 @@
 ﻿using Headers = NServiceBus.Transport.SqlServerNative.Headers;
+using System.Threading.Tasks;
 
 public class SendIntegration :
     TestBase
 {
-    [Fact]
+    [Test]
     public async Task Run()
     {
         var resetEvent = new ManualResetEvent(false);

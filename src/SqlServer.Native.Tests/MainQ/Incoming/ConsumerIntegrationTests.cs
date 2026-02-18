@@ -1,9 +1,11 @@
-﻿public class ConsumerIntegrationTests :
+﻿using System.Threading.Tasks;
+
+public class ConsumerIntegrationTests :
     TestBase
 {
     static string table = "IntegrationConsumer_Consumer";
 
-    [Fact]
+    [Test]
     public async Task Run()
     {
         await SqlConnection.DropTable(null, table);
@@ -15,7 +17,7 @@
         await SendStartMessage(endpoint);
         var consumer = new QueueManager(table, SqlConnection);
         await using var message = await consumer.Consume();
-        Assert.NotNull(message);
+        await Assert.That(message).IsNotNull();
     }
 
     static Task SendStartMessage(IEndpointInstance endpoint)

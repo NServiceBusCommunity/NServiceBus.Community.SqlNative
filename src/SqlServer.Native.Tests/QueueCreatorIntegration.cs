@@ -1,6 +1,8 @@
-﻿public class QueueCreatorIntegration
+﻿using System.Threading.Tasks;
+
+public class QueueCreatorIntegration
 {
-    [Fact]
+    [Test]
     public async Task Run()
     {
         var resetEvent = new ManualResetEvent(false);

@@ -1,11 +1,13 @@
-﻿public class WithDedupeTests :
+﻿using System.Threading.Tasks;
+
+public class WithDedupeTests :
     TestBase
 {
     static DateTime dateTime = new(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc);
 
     string table = "WithDedupeTests";
 
-    [Fact]
+    [Test]
     public async Task Single()
     {
         var message = BuildBytesMessage("00000000-0000-0000-0000-000000000001");
@@ -13,7 +15,7 @@
         await Verify( SqlHelper.ReadData(table, SqlConnection));
     }
 
-    [Fact]
+    [Test]
     public async Task Single_WithDuplicate()
     {
         var message = BuildBytesMessage("00000000-0000-0000-0000-000000000001");
@@ -31,7 +33,7 @@
     //    await Verify(SqlHelper.ReadData(table));
     //}
 
-    [Fact]
+    [Test]
     public async Task Batch()
     {
         var messages = new List<OutgoingMessage>
@@ -43,7 +45,7 @@
         await Verify(SqlHelper.ReadData(table, SqlConnection));
     }
 
-    [Fact]
+    [Test]
     public async Task Batch_WithFirstDuplicate()
     {
         var message = BuildBytesMessage("00000000-0000-0000-0000-000000000001");
@@ -57,7 +59,7 @@
         await Verify(SqlHelper.ReadData(table, SqlConnection));
     }
 
-    [Fact]
+    [Test]
     public async Task Batch_WithSecondDuplicate()
     {
         var message = BuildBytesMessage("00000000-0000-0000-0000-000000000002");

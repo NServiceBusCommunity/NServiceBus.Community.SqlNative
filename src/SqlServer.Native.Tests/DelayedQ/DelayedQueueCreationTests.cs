@@ -1,6 +1,8 @@
-﻿public class DelayedQueueCreationTests
+﻿using System.Threading.Tasks;
+
+public class DelayedQueueCreationTests
 {
-    [Fact]
+    [Test]
     public async Task Run()
     {
         await using var connection = Connection.OpenConnectionFromNewClient();

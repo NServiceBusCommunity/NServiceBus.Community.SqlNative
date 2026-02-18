@@ -1,11 +1,13 @@
-﻿public class DedupeCleanerJobTests :
+﻿using System.Threading.Tasks;
+
+public class DedupeCleanerJobTests :
     TestBase
 {
     static DateTime dateTime = new(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc);
 
     string table = "DedupeCleanerJobTests";
 
-    [Fact]
+    [Test]
     public async Task Should_only_clean_up_old_item()
     {
         var message1 = BuildBytesMessage("00000000-0000-0000-0000-000000000001");

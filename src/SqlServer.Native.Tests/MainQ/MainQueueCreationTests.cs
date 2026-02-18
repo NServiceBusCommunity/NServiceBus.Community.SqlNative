@@ -1,6 +1,8 @@
-﻿public class MainQueueCreationTests
+﻿using System.Threading.Tasks;
+
+public class MainQueueCreationTests
 {
-    [Fact]
+    [Test]
     public async Task Run()
     {
         await using var connection = Connection.OpenConnectionFromNewClient();
@@ -11,7 +13,7 @@
             .SchemaFilter(_ => _.Name == "MainQueueCreationTests");
     }
 
-    [Fact]
+    [Test]
     public async Task MigrateToNonClusteredIndex()
     {
         await using var connection = Connection.OpenConnectionFromNewClient();

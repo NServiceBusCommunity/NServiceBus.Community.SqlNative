@@ -1,7 +1,9 @@
-﻿public class CleanerTests
+﻿using System.Threading.Tasks;
+
+public class CleanerTests
 {
-    [Fact]
-    public void If_triggers_critical_action_after_10_failures()
+    [Test]
+    public async Task If_triggers_critical_action_after_10_failures()
     {
         var criticalActionTriggered = false;
         var timer = new FakeTimer();
@@ -15,19 +17,19 @@
             timer.OnError(new("Simulated!"));
         }
 
-        Assert.False(criticalActionTriggered);
+        await Assert.That(criticalActionTriggered).IsFalse();
 
         //Trigger the 10th time
         timer.OnError(new("Simulated!"));
-        Assert.True(criticalActionTriggered);
+        await Assert.That(criticalActionTriggered).IsTrue();
         criticalActionTriggered = false;
 
         //Trigger again -- the counter should be reset
         timer.OnError(new("Simulated!"));
-        Assert.False(criticalActionTriggered);
+        await Assert.That(criticalActionTriggered).IsFalse();
     }
 
-    [Fact]
+    [Test]
     public async Task It_resets_the_failure_counter_after_successful_attempt()
     {
         var criticalActionTriggered = false;
@@ -49,7 +51,7 @@
             }
         }
 
-        Assert.False(criticalActionTriggered);
+        await Assert.That(criticalActionTriggered).IsFalse();
     }
 
     class FakeTimer :

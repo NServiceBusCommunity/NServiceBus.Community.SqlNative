@@ -1,7 +1,9 @@
-﻿public class SubscriptionManagerTests :
+﻿using System.Threading.Tasks;
+
+public class SubscriptionManagerTests :
     TestBase
 {
-    [Fact]
+    [Test]
     public async Task Create()
     {
         var manager = new SubscriptionManager("Subscription", SqlConnection);
@@ -11,7 +13,7 @@
             .SchemaFilter(_ => _.Name == "Subscription");
     }
 
-    [Fact]
+    [Test]
     public async Task Drop()
     {
         var manager = new SubscriptionManager("Subscription", SqlConnection);
@@ -22,7 +24,7 @@
             .SchemaFilter(_ => _.Name == "Subscription");
     }
 
-    [Fact]
+    [Test]
     public async Task Subscribe()
     {
         var manager = new SubscriptionManager("Subscription", SqlConnection);
@@ -33,7 +35,7 @@
         await Verify(manager.GetSubscribers("topic1"));
     }
 
-    [Fact]
+    [Test]
     public async Task NoMatchingTopic()
     {
         var manager = new SubscriptionManager("Subscription", SqlConnection);
@@ -44,7 +46,7 @@
         await Verify(manager.GetSubscribers("topic3"));
     }
 
-    [Fact]
+    [Test]
     public async Task SingleTopic()
     {
         var manager = new SubscriptionManager("Subscription", SqlConnection);
@@ -56,7 +58,7 @@
         await Verify(manager.GetSubscribers("topic1"));
     }
 
-    [Fact]
+    [Test]
     public async Task MultipleTopic()
     {
         var manager = new SubscriptionManager("Subscription", SqlConnection);

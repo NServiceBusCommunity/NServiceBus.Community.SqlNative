@@ -4,7 +4,7 @@ using Microsoft.Net.Http.Headers;
 public class RequestParserTests :
     TestBase
 {
-    [Fact]
+    [Test]
     public Task Optional()
     {
         var request = new FakeHttpRequest
@@ -20,7 +20,7 @@ public class RequestParserTests :
         return Verify(request);
     }
 
-    [Fact]
+    [Test]
     public Task Simple()
     {
         var request = new FakeHttpRequest

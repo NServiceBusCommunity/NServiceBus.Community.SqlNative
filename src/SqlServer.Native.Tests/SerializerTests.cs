@@ -1,6 +1,6 @@
 ﻿public class SerializerTests
 {
-    [Fact]
+    [Test]
     public Task Dictionary()
     {
         var serialized = Serializer.SerializeDictionary(
@@ -17,7 +17,7 @@
         return Verify(Serializer.DeSerializeDictionary(serialized));
     }
 
-    [Fact]
+    [Test]
     public Task List()
     {
         var serialized = Serializer.SerializeList(

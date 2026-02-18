@@ -4,13 +4,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using My.Namespace;
 using NServiceBus.Attachments.Sql;
+using System.Threading.Tasks;
 #pragma warning disable ASPDEPR008
 #pragma warning disable ASPDEPR004
 
 public class HttpPassthroughIntegrationTests :
     TestBase
 {
-    [Fact]
+    [Test]
     public async Task Integration()
     {
         await using (var connection = Connection.OpenConnection())
@@ -70,12 +71,11 @@ public class HttpPassthroughIntegrationTests :
         public async Task Handle(MyMessage message, HandlerContext context)
         {
             var incomingAttachment = context.Attachments();
-            Assert.NotNull(await incomingAttachment.GetBytes("fooFile", context.CancellationToken));
-            Assert.NotNull(await incomingAttachment.GetBytes(context.CancellationToken));
-            Assert.Equal("Value", message.Property);
+            await Assert.That(await incomingAttachment.GetBytes("fooFile", context.CancellationToken)).IsNotNull();
+            await Assert.That(await incomingAttachment.GetBytes(context.CancellationToken)).IsNotNull();
+            await Assert.That(message.Property).IsEqualTo("Value");
             @event.Set();
         }
     }
 }
-
 #endif

@@ -1,9 +1,11 @@
-﻿public class ReaderTests :
+﻿using System.Threading.Tasks;
+
+public class ReaderTests :
     TestBase
 {
     string table = "ReaderTests";
 
-    [Fact]
+    [Test]
     public async Task Single()
     {
         await TestDataBuilder.SendData(table);
@@ -12,7 +14,7 @@
         await Verify(result!.ToVerifyTarget());
     }
 
-    [Fact]
+    [Test]
     public async Task Single_nulls()
     {
         await TestDataBuilder.SendNullData(table);
@@ -21,7 +23,7 @@
         await Verify(result!.ToVerifyTarget());
     }
 
-    [Fact]
+    [Test]
     public async Task Batch()
     {
         await TestDataBuilder.SendMultipleDataAsync(table);
@@ -36,11 +38,11 @@
                 messages.Add(message.ToVerifyTarget());
                 return Task.CompletedTask;
             });
-        Assert.Equal(4, result.LastRowVersion);
-        Assert.Equal(3, result.Count);
+        await Assert.That(result.LastRowVersion).IsEqualTo(4);
+        await Assert.That(result.Count).IsEqualTo(3);
     }
 
-    [Fact]
+    [Test]
     public async Task Batch_all()
     {
         await TestDataBuilder.SendMultipleDataAsync(table);

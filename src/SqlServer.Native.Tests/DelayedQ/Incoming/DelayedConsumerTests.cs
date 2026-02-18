@@ -1,9 +1,11 @@
-﻿public class DelayedConsumerTests :
+﻿using System.Threading.Tasks;
+
+public class DelayedConsumerTests :
     TestBase
 {
     string table = "DelayedConsumerTests";
 
-    [Fact]
+    [Test]
     public async Task Single()
     {
         await DelayedTestDataBuilder.SendData(table);
@@ -12,7 +14,7 @@
         await Verify(result!.ToVerifyTarget());
     }
 
-    [Fact]
+    [Test]
     public async Task Single_nulls()
     {
         await DelayedTestDataBuilder.SendNullData(table);
@@ -21,7 +23,7 @@
         await Verify(result!.ToVerifyTarget());
     }
 
-    [Fact]
+    [Test]
     public async Task Batch()
     {
         await DelayedTestDataBuilder.SendMultipleData(table);
@@ -35,8 +37,8 @@
                 messages.Add(message.ToVerifyTarget());
                 return Task.CompletedTask;
             });
-        Assert.Equal(3, result.Count);
-        Assert.Equal(3, result.LastRowVersion);
+        await Assert.That(result.Count).IsEqualTo(3);
+        await Assert.That(result.LastRowVersion).IsEqualTo(3);
         await Verify(messages.OrderBy(_ => _.Due));
     }
 

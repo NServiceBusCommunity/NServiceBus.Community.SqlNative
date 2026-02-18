@@ -1,7 +1,7 @@
 ﻿public class ClaimsAppenderTests :
     TestBase
 {
-    [Fact]
+    [Test]
     public Task Append()
     {
         var headers = new Dictionary<string, string>();
@@ -10,7 +10,7 @@
         return Verify(headers);
     }
 
-    [Fact]
+    [Test]
     public Task Extract()
     {
         var headers = new Dictionary<string, string>();

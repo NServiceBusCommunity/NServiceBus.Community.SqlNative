@@ -1,11 +1,13 @@
-﻿public class MessageProcessingLoopTests :
+﻿using System.Threading.Tasks;
+
+public class MessageProcessingLoopTests :
     TestBase
 {
     static DateTime dateTime = new(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc);
 
     string table = "MessageProcessingLoopTests";
 
-    [Fact]
+    [Test]
     public async Task Should_not_throw_when_run_over_end()
     {
         await SqlConnection.DropTable(null, table);
@@ -27,10 +29,10 @@
         );
         loop.Start();
         Thread.Sleep(1000);
-        Assert.Null(exception!);
+        await Assert.That(exception!).IsNull();
     }
 
-    [Fact]
+    [Test]
     public async Task Should_get_correct_count()
     {
         var resetEvent = new ManualResetEvent(false);
@@ -63,10 +65,10 @@
             persistRowVersion: (_, _, _) => Task.CompletedTask);
         loop.Start();
         resetEvent.WaitOne(TimeSpan.FromSeconds(30));
-        Assert.Equal(5, count);
+        await Assert.That(count).IsEqualTo(5);
     }
 
-    [Fact]
+    [Test]
     public async Task Should_get_correct_next_row_version()
     {
         var resetEvent = new ManualResetEvent(false);
@@ -99,7 +101,7 @@
             persistRowVersion: PersistRowVersion);
         loop.Start();
         resetEvent.WaitOne(TimeSpan.FromSeconds(30));
-        Assert.Equal(6, rowVersion);
+        await Assert.That(rowVersion).IsEqualTo(6);
     }
 
     Task SendMessages()
