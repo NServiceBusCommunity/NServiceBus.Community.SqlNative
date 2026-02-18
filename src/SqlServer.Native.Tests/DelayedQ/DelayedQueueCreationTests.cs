@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-public class DelayedQueueCreationTests
+﻿public class DelayedQueueCreationTests
 {
     [Test]
     public async Task Run()

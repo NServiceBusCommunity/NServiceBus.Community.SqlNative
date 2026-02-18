@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-public class ConsumerTests :
+﻿public class ConsumerTests :
     TestBase
 {
     string table = "ConsumerTests";

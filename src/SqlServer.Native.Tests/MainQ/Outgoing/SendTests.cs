@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-public class SendTests :
+﻿public class SendTests :
     TestBase
 {
     static DateTime dateTime = new(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc);

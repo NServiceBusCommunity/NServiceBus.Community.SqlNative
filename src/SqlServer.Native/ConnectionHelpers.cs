@@ -1,4 +1,4 @@
-﻿#if (SqlServerDedupe)
+﻿#if SqlServerDedupe
 namespace NServiceBus.Transport.SqlServerDeduplication;
 #else
 namespace NServiceBus.Transport.SqlServerNative;

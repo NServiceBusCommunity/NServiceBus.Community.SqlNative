@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-public class MainQueueCreationTests
+﻿public class MainQueueCreationTests
 {
     [Test]
     public async Task Run()

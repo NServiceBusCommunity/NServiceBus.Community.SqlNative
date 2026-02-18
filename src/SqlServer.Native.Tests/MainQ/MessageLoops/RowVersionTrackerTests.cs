@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-public class RowVersionTrackerTests :
+﻿public class RowVersionTrackerTests :
     TestBase
 {
     [Test]

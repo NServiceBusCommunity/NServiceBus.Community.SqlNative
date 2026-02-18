@@ -1,5 +1,4 @@
 ﻿using Headers = NServiceBus.Transport.SqlServerNative.Headers;
-using System.Threading.Tasks;
 
 public class SendIntegration :
     TestBase

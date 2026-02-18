@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-public class ConsumerIntegrationTests :
+﻿public class ConsumerIntegrationTests :
     TestBase
 {
     static string table = "IntegrationConsumer_Consumer";

@@ -1,7 +1,6 @@
 ﻿using NServiceBus.Attachments.Sql;
 using DedupeOutcome = NServiceBus.Transport.SqlServerDeduplication.DedupeOutcome;
 using DedupeResult = NServiceBus.Transport.SqlServerDeduplication.DedupeResult;
-using System.Threading.Tasks;
 
 public class DedupeIntegrationTests :
     TestBase

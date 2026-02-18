@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-public class DelayedReaderTests :
+﻿public class DelayedReaderTests :
     TestBase
 {
     string table = "DelayedReaderTests";

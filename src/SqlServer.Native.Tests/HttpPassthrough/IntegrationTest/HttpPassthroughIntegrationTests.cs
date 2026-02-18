@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using My.Namespace;
 using NServiceBus.Attachments.Sql;
-using System.Threading.Tasks;
 #pragma warning disable ASPDEPR008
 #pragma warning disable ASPDEPR004
 

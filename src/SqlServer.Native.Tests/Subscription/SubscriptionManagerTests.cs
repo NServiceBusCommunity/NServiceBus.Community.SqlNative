@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-public class SubscriptionManagerTests :
+﻿public class SubscriptionManagerTests :
     TestBase
 {
     [Test]

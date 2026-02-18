@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-public class QueueCreatorIntegration
+﻿public class QueueCreatorIntegration
 {
     [Test]
     public async Task Run()
