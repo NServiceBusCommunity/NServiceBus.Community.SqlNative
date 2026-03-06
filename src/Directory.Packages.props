@@ -7,7 +7,7 @@
     <PackageVersion Include="Argon" Version="0.33.5" />
     <PackageVersion Include="ConfigureAwait.Fody" Version="3.3.2" />
     <PackageVersion Include="Fody" Version="6.9.3" />
-    <PackageVersion Include="MarkdownSnippets.MsBuild" Version="28.0.0" />
+    <PackageVersion Include="MarkdownSnippets.MsBuild" Version="28.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="10.0.3" />
     <PackageVersion Include="Microsoft.Data.SqlClient" Version="6.1.4" />
     <PackageVersion Include="NServiceBus" Version="10.1.0" />
@@ -16,7 +16,7 @@
     <PackageVersion Include="NServiceBus.Newtonsoft.Json" Version="5.0.0" />
     <PackageVersion Include="NServiceBus.Transport.SqlServer" Version="9.0.0" />
     <PackageVersion Include="ProjectDefaults" Version="1.0.172" />
-    <PackageVersion Include="Polyfill" Version="9.17.0" />
+    <PackageVersion Include="Polyfill" Version="9.18.0" />
     <PackageVersion Include="Verify.SqlServer" Version="11.3.1" />
     <PackageVersion Include="Verify.TUnit" Version="31.13.2" />
     <PackageVersion Include="Microsoft.Sbom.Targets" Version="4.1.5" />
