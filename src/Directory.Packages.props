@@ -8,7 +8,7 @@
     <PackageVersion Include="ConfigureAwait.Fody" Version="3.3.2" />
     <PackageVersion Include="Fody" Version="6.9.3" />
     <PackageVersion Include="MarkdownSnippets.MsBuild" Version="28.0.1" />
-    <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="10.0.3" />
+    <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="10.0.4" />
     <PackageVersion Include="Microsoft.Data.SqlClient" Version="6.1.4" />
     <PackageVersion Include="NServiceBus" Version="10.1.0" />
     <PackageVersion Include="NServiceBus.Community.Attachments.Sql" Version="17.0.0" />
@@ -24,6 +24,6 @@
     <PackageVersion Include="EmptyFiles" Version="8.17.2" />
     <PackageVersion Include="SimpleInfoName" Version="3.2.0" />
     <PackageVersion Include="Verify" Version="31.13.2" />
-    <PackageVersion Include="TUnit" Version="1.19.16" />
+    <PackageVersion Include="TUnit" Version="1.19.22" />
   </ItemGroup>
 </Project>
