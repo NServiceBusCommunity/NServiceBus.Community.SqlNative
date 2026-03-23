@@ -12,4 +12,8 @@
     <PackageReference Include="ProjectDefaults" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Sbom.Targets" PrivateAssets="all" Condition="'$(CI)' == 'true'" />
   </ItemGroup>
+  <!-- remove when SqlClient 7.0.1 -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <Reference Include="System.Data.Common" />
+  </ItemGroup>
 </Project>
