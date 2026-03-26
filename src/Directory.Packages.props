@@ -11,8 +11,8 @@
     <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="10.0.5" />
     <PackageVersion Include="Microsoft.Data.SqlClient" Version="7.0.0" />
     <PackageVersion Include="NServiceBus" Version="10.1.0" />
-    <PackageVersion Include="NServiceBus.Community.Attachments.Sql" Version="18.0.0" />
-    <PackageVersion Include="NServiceBus.Community.Attachments.Sql.Raw" Version="18.0.0" />
+    <PackageVersion Include="NServiceBus.Community.Attachments.Sql" Version="19.0.0" />
+    <PackageVersion Include="NServiceBus.Community.Attachments.Sql.Raw" Version="19.0.0" />
     <PackageVersion Include="NServiceBus.Newtonsoft.Json" Version="5.0.0" />
     <PackageVersion Include="NServiceBus.Transport.SqlServer" Version="9.0.0" />
     <PackageVersion Include="ProjectDefaults" Version="1.0.172" />
