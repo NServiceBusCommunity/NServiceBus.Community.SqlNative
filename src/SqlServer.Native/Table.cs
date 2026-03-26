@@ -24,14 +24,10 @@ public class Table
     {
         Guard.AgainstNullOrEmpty(tableName);
         Guard.AgainstNullOrEmpty(schema);
-        TableName = tableName;
-        Schema = schema;
-        if (sanitize)
-        {
-            TableName = SqlExtensions.Sanitize(TableName);
-            Schema = SqlExtensions.Sanitize(Schema);
-        }
-
+        UnsanitizedTableName = tableName;
+        UnsanitizedSchema = schema;
+        TableName = sanitize ? SqlExtensions.Sanitize(tableName) : tableName;
+        Schema = sanitize ? SqlExtensions.Sanitize(schema) : schema;
         FullTableName = $"{Schema}.{TableName}";
     }
 
@@ -49,6 +45,10 @@ public class Table
     /// The sanitized schema name.
     /// </summary>
     public string Schema { get; }
+
+    internal string UnsanitizedTableName { get; }
+
+    internal string UnsanitizedSchema { get; }
 
     /// <summary>
     /// Converts a string into a <see cref="Table"/>.

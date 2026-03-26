@@ -12,8 +12,6 @@ class Sender(
     Table table,
     ILogger logger)
 {
-    Persister attachments = new(new(attachmentsTable.TableName, attachmentsTable.Schema, false));
-
     public async Task<long> Send(PassthroughMessage message, Table destination, Cancel cancel)
     {
         try
@@ -68,13 +66,14 @@ class Sender(
     async Task SendAttachments(SqlTransaction transaction, DateTime expiry, Cancel cancel, PassthroughMessage message)
     {
         var connection = transaction.Connection!;
+        var attachments = new Persister(connection.Database, attachmentsTable.UnsanitizedSchema, attachmentsTable.UnsanitizedTableName);
         foreach (var file in message.Attachments)
         {
-            await SendAttachment(transaction, message.Id.ToString(), expiry, cancel, file, connection);
+            await SendAttachment(attachments, transaction, message.Id.ToString(), expiry, cancel, file, connection);
         }
     }
 
-    async Task SendAttachment(SqlTransaction transaction, string messageId, DateTime expiry, Cancel cancel, Attachment file, SqlConnection connection)
+    static async Task SendAttachment(Persister attachments, SqlTransaction transaction, string messageId, DateTime expiry, Cancel cancel, Attachment file, SqlConnection connection)
     {
         using var stream = file.Stream();
         await attachments.SaveStream(connection, transaction, messageId, file.FileName, expiry, stream, cancel: cancel);
