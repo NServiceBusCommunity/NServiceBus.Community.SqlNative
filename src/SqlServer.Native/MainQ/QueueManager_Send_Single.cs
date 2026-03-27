@@ -6,7 +6,7 @@ public partial class QueueManager
 {
     protected override SqlCommand CreateSendCommand(OutgoingMessage message)
     {
-        var command = Connection.CreateCommand(Transaction, string.Format(sendSql, Table));
+        var command = Connection.CreateCommand(Transaction, sendSql);
         var parameters = command.Parameters;
 
         var idParameter = CreateIdParameter(command, parameters);
