@@ -1,13 +1,47 @@
-﻿#pragma warning disable ASPDEPR008
+using NServiceBus.SqlServer.HttpPassthrough;
+using NServiceBus.Transport.SqlServerNative;
 
-public class Program
+var builder = WebApplication.CreateBuilder();
+
+var configuration = new PassthroughConfiguration(
+    connectionFunc: () => new(Connection.ConnectionString),
+    callback: AmendMessage,
+    dedupCriticalError: exception => Environment.FailFast("", exception));
+configuration.AppendClaimsToMessageHeaders();
+builder.Services.AddSqlHttpPassthrough(configuration);
+
+var app = builder.Build();
+
+app.UseMiddleware<LogContextMiddleware>();
+app.AddSqlHttpPassthroughBadRequestMiddleware();
+
+app.MapGet("/test", () =>
 {
-    public static void Main()
+    var file = Path.Combine(Directory.GetCurrentDirectory(), "test.html");
+    return Results.File(file, "text/html");
+});
+
+app.MapPost("/SendMessage", async (ISqlPassthrough sender, HttpContext context, Cancel cancel) =>
+{
+    try
     {
-        var builder = WebHost.CreateDefaultBuilder();
-        builder.UseContentRoot(Directory.GetCurrentDirectory());
-        builder.UseStartup<SampleStartup>();
-        var webHost = builder.Build();
-        webHost.Run();
+        await sender.Send(context, cancel);
     }
+    catch (SendFailureException exception)
+    {
+        exception.Data.Add("message", exception.PassthroughMessage.ToDictionary());
+        exception.CaptureAndThrow();
+    }
+}).RequireAuthorization();
+
+app.Run();
+
+static Task<Table> AmendMessage(HttpContext context, PassthroughMessage message)
+{
+    message.ExtraHeaders = new()
+    {
+        {"MessagePassthrough.Version", AssemblyVersion.Version},
+        {"{}\":", "{}\":"}
+    };
+    return Task.FromResult((Table) message.Destination!);
 }

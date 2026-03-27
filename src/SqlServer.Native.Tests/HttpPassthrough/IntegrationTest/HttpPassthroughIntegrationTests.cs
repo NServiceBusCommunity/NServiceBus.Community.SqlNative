@@ -1,9 +1,11 @@
 ﻿#if DEBUG
 
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using My.Namespace;
 using NServiceBus.Attachments.Sql;
+using HttpContext = Microsoft.AspNetCore.Http.HttpContext;
 #pragma warning disable ASPDEPR008
 #pragma warning disable ASPDEPR004
 
@@ -35,8 +37,30 @@ public class HttpPassthroughIntegrationTests :
 
     static async Task SubmitMultipartForm()
     {
-        var hostBuilder = new WebHostBuilder();
-        hostBuilder.UseStartup<SampleStartup>();
+        var hostBuilder = new WebHostBuilder()
+            .ConfigureServices(services =>
+            {
+                var configuration = new PassthroughConfiguration(
+                    connectionFunc: () => new(Connection.ConnectionString),
+                    callback: AmendMessage,
+                    dedupCriticalError: exception => Environment.FailFast("", exception));
+                configuration.AppendClaimsToMessageHeaders();
+                services.AddSqlHttpPassthrough(configuration);
+                services.AddRouting();
+            })
+            .Configure(app =>
+            {
+                app.UseRouting();
+                app.AddSqlHttpPassthroughBadRequestMiddleware();
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapPost("/SendMessage", context =>
+                    {
+                        var sender = context.RequestServices.GetRequiredService<ISqlPassthrough>();
+                        return sender.Send(context, context.RequestAborted);
+                    });
+                });
+            });
         using var server = new TestServer(hostBuilder);
         using var client = server.CreateClient();
         client.DefaultRequestHeaders.Referrer = new("http://TheReferrer");
@@ -63,6 +87,9 @@ public class HttpPassthroughIntegrationTests :
         attachments.UseTransportConnectivity();
         return await Endpoint.Start(configuration);
     }
+
+    static Task<Table> AmendMessage(HttpContext context, PassthroughMessage message) =>
+        Task.FromResult((Table) message.Destination!);
 
     class Handler(ManualResetEvent @event) :
         IHandleMessages<MyMessage>
