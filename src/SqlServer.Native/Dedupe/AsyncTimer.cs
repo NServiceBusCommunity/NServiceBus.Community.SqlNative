@@ -28,17 +28,31 @@
             cancel);
     }
 
-    public virtual Task Stop()
+    public virtual async Task Stop()
     {
         if (tokenSource == null)
         {
-            return Task.FromResult(0);
+            return;
         }
 
         tokenSource.Cancel();
-        tokenSource.Dispose();
-
-        return task ?? Task.FromResult(0);
+        try
+        {
+            if (task != null)
+            {
+                await task;
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            // expected during stop
+        }
+        finally
+        {
+            tokenSource.Dispose();
+            tokenSource = null;
+            task = null;
+        }
     }
 
     Task? task;
