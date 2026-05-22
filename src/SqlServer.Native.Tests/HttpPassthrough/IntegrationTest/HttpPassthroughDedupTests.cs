@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using HttpContext = Microsoft.AspNetCore.Http.HttpContext;
@@ -18,7 +18,7 @@ public class HttpPassthroughDedupTests :
             await manager.Create();
         }
 
-        var endpoint = await StartEndpoint();
+        var host = await StartEndpoint();
 
         var hostBuilder = new WebHostBuilder()
             .ConfigureServices(services =>
@@ -58,7 +58,7 @@ public class HttpPassthroughDedupTests :
 
         Thread.Sleep(3000);
 
-        await endpoint.Stop();
+        await host.StopAsync();
         await Assert.That(count).IsEqualTo(1);
     }
 
@@ -74,10 +74,14 @@ public class HttpPassthroughDedupTests :
         return send.httpStatus;
     }
 
-    static async Task<IEndpointInstance> StartEndpoint()
+    static async Task<IHost> StartEndpoint()
     {
         var configuration = await EndpointCreator.Create(nameof(HttpPassthroughDedupTests));
-        return await Endpoint.Start(configuration);
+        var builder = Host.CreateApplicationBuilder();
+        builder.Services.AddNServiceBusEndpoint(configuration);
+        var host = builder.Build();
+        await host.StartAsync();
+        return host;
     }
 
     static Task<Table> AmendMessage(HttpContext context, PassthroughMessage message) =>

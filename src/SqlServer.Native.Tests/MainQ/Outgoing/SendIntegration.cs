@@ -1,4 +1,4 @@
-﻿using Headers = NServiceBus.Transport.SqlServerNative.Headers;
+using Headers = NServiceBus.Transport.SqlServerNative.Headers;
 
 public class SendIntegration :
     TestBase
@@ -8,11 +8,14 @@ public class SendIntegration :
     {
         var resetEvent = new ManualResetEvent(false);
         var configuration = await EndpointCreator.Create("IntegrationSend");
-        configuration.RegisterComponents(_ => _.AddSingleton(resetEvent));
-        var endpoint = await Endpoint.Start(configuration);
+        var builder = Host.CreateApplicationBuilder();
+        builder.Services.AddNServiceBusEndpoint(configuration);
+        builder.Services.AddSingleton(resetEvent);
+        var host = builder.Build();
+        await host.StartAsync();
         await SendStartMessage();
         resetEvent.WaitOne();
-        await endpoint.Stop();
+        await host.StopAsync();
     }
 
     Task SendStartMessage()

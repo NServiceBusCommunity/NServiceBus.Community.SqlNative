@@ -1,16 +1,17 @@
-﻿using Microsoft.Data.SqlClient;
-using NServiceBus.Logging;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using NServiceBus.Transport.SqlServerNative;
 using SampleNamespace;
 
 class Program
 {
     const string connection = @"Server=.\SQLExpress;Database=SubscriptionSample; Integrated Security=True;Max Pool Size=100;TrustServerCertificate=True";
-    static async Task Main()
+    static async Task Main(string[] args)
     {
         await CreateTables();
-        var defaultFactory = LogManager.Use<DefaultFactory>();
-        defaultFactory.Level(LogLevel.Info);
+        Console.Title = "SampleEndpoint Press Ctrl-C to Exit.";
 
         var configuration = new EndpointConfiguration("SampleEndpoint");
         configuration.UsePersistence<LearningPersistence>();
@@ -19,14 +20,19 @@ class Program
         var transport = configuration.UseTransport<SqlServerTransport>();
         transport.ConnectionString(connection);
         transport.Transactions(TransportTransactionMode.SendsAtomicWithReceive);
-
         configuration.EnableInstallers();
-        Console.Title = "SampleEndpoint Press Ctrl-C to Exit.";
-        Console.TreatControlCAsInput = true;
-        var endpoint = await Endpoint.Start(configuration);
-        await Publish(endpoint);
+
+        var builder = Host.CreateApplicationBuilder(args);
+        builder.Logging.SetMinimumLevel(LogLevel.Information);
+        builder.Services.AddNServiceBusEndpoint(configuration);
+        var host = builder.Build();
+        await host.StartAsync();
+
+        var session = host.Services.GetRequiredService<IMessageSession>();
+        await Publish(session);
+
         Console.ReadKey(true);
-        await endpoint.Stop();
+        await host.StopAsync();
     }
 
     static async Task CreateTables()
@@ -55,9 +61,9 @@ class Program
         }
     }
 
-    static Task Publish(IEndpointInstance endpoint)
+    static Task Publish(IMessageSession session)
     {
         var message = new SampleMessage();
-        return endpoint.Publish(message);
+        return session.Publish(message);
     }
 }

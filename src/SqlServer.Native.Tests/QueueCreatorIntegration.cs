@@ -1,22 +1,26 @@
-﻿public class QueueCreatorIntegration
+public class QueueCreatorIntegration
 {
     [Test]
     public async Task Run()
     {
         var resetEvent = new ManualResetEvent(false);
         var configuration = await EndpointCreator.Create("IntegrationSend");
-        configuration.RegisterComponents(_ => _.AddSingleton(resetEvent));
-        var endpoint = await Endpoint.Start(configuration);
-        await SendStartMessage(endpoint);
+        var builder = Host.CreateApplicationBuilder();
+        builder.Services.AddNServiceBusEndpoint(configuration);
+        builder.Services.AddSingleton(resetEvent);
+        var host = builder.Build();
+        await host.StartAsync();
+        var session = host.Services.GetRequiredService<IMessageSession>();
+        await SendStartMessage(session);
         resetEvent.WaitOne();
-        await endpoint.Stop();
+        await host.StopAsync();
     }
 
-    static Task SendStartMessage(IEndpointInstance endpoint)
+    static Task SendStartMessage(IMessageSession session)
     {
         var sendOptions = new SendOptions();
         sendOptions.RouteToThisEndpoint();
-        return endpoint.Send(new SendMessage(), sendOptions);
+        return session.Send(new SendMessage(), sendOptions);
     }
 
     class SendHandler(ManualResetEvent @event) :

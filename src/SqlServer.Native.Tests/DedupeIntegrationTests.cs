@@ -1,4 +1,4 @@
-﻿using NServiceBus.Attachments.Sql;
+using NServiceBus.Attachments.Sql;
 using DedupeOutcome = NServiceBus.Transport.SqlServerDeduplication.DedupeOutcome;
 using DedupeResult = NServiceBus.Transport.SqlServerDeduplication.DedupeResult;
 
@@ -10,12 +10,12 @@ public class DedupeIntegrationTests :
     [Test]
     public async Task Integration()
     {
-        var endpoint = await StartEndpoint();
+        var (host, session) = await StartEndpoint();
         var messageId = Guid.NewGuid();
-        var result = await SendMessage(messageId, endpoint, "context1");
+        var result = await SendMessage(messageId, session, "context1");
         await Assert.That(result.Context).IsEqualTo("context1");
         await Assert.That(result.DedupeOutcome).IsEqualTo(DedupeOutcome.Sent);
-        result = await SendMessage(messageId, endpoint, "context2");
+        result = await SendMessage(messageId, session, "context2");
         await Assert.That(result.Context).IsEqualTo("context1");
         await Assert.That(result.DedupeOutcome).IsEqualTo(DedupeOutcome.Deduplicated);
         if (!countdown.Wait(TimeSpan.FromSeconds(20)))
@@ -23,14 +23,14 @@ public class DedupeIntegrationTests :
             throw new("Expected dedup");
         }
 
-        await endpoint.Stop();
+        await host.StopAsync();
     }
 
-    static async Task<DedupeResult> SendMessage(Guid messageId, IEndpointInstance endpoint, string context)
+    static async Task<DedupeResult> SendMessage(Guid messageId, IMessageSession session, string context)
     {
         var sendOptions = new SendOptions();
         sendOptions.RouteToThisEndpoint();
-        var sendWithDedupe = await endpoint.SendWithDedupe(messageId, new MyMessage(), sendOptions,context);
+        var sendWithDedupe = await session.SendWithDedupe(messageId, new MyMessage(), sendOptions, context);
         if (sendWithDedupe.DedupeOutcome == DedupeOutcome.Deduplicated)
         {
             countdown.Signal();
@@ -38,7 +38,7 @@ public class DedupeIntegrationTests :
         return sendWithDedupe;
     }
 
-    static Task<IEndpointInstance> StartEndpoint()
+    static async Task<(IHost, IMessageSession)> StartEndpoint()
     {
         var configuration = new EndpointConfiguration(nameof(DedupeIntegrationTests));
         configuration.UsePersistence<LearningPersistence>();
@@ -53,7 +53,12 @@ public class DedupeIntegrationTests :
         var transport = configuration.UseTransport<SqlServerTransport>();
         transport.ConnectionString(Connection.ConnectionString);
         transport.NativeDelayedDelivery();
-        return Endpoint.Start(configuration);
+
+        var builder = Host.CreateApplicationBuilder();
+        builder.Services.AddNServiceBusEndpoint(configuration);
+        var host = builder.Build();
+        await host.StartAsync();
+        return (host, host.Services.GetRequiredService<IMessageSession>());
     }
 
     class Handler :
