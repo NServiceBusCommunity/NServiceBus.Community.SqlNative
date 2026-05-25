@@ -1,4 +1,4 @@
-﻿public class ConsumerIntegrationTests :
+public class ConsumerIntegrationTests :
     TestBase
 {
     static string table = "IntegrationConsumer_Consumer";
@@ -11,18 +11,23 @@
         await manager.Create();
         var configuration = await EndpointCreator.Create("IntegrationConsumer");
         configuration.SendOnly();
-        var endpoint = await Endpoint.Start(configuration);
-        await SendStartMessage(endpoint);
+        var builder = Host.CreateApplicationBuilder();
+        builder.Services.AddNServiceBusEndpoint(configuration);
+        var host = builder.Build();
+        await host.StartAsync();
+        var session = host.Services.GetRequiredService<IMessageSession>();
+        await SendStartMessage(session);
         var consumer = new QueueManager(table, SqlConnection);
         await using var message = await consumer.Consume();
         await Assert.That(message).IsNotNull();
+        await host.StopAsync();
     }
 
-    static Task SendStartMessage(IEndpointInstance endpoint)
+    static Task SendStartMessage(IMessageSession session)
     {
         var sendOptions = new SendOptions();
         sendOptions.SetDestination(table);
-        return endpoint.Send(new SendMessage(), sendOptions);
+        return session.Send(new SendMessage(), sendOptions);
     }
 
     class SendMessage :

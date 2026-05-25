@@ -1,4 +1,4 @@
-﻿#if DEBUG
+#if DEBUG
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,7 +23,7 @@ public class HttpPassthroughIntegrationTests :
         }
 
         var resetEvent = new ManualResetEvent(false);
-        var endpoint = await StartEndpoint(resetEvent);
+        var host = await StartEndpoint(resetEvent);
 
         await SubmitMultipartForm();
 
@@ -32,7 +32,7 @@ public class HttpPassthroughIntegrationTests :
             throw new("OutgoingMessage not received");
         }
 
-        await endpoint.Stop();
+        await host.StopAsync();
     }
 
     static async Task SubmitMultipartForm()
@@ -79,13 +79,17 @@ public class HttpPassthroughIntegrationTests :
             });
     }
 
-    static async Task<IEndpointInstance> StartEndpoint(ManualResetEvent resetEvent)
+    static async Task<IHost> StartEndpoint(ManualResetEvent resetEvent)
     {
         var configuration = await EndpointCreator.Create(nameof(HttpPassthroughIntegrationTests));
         var attachments = configuration.EnableAttachments(Connection.ConnectionString, TimeToKeep.Default);
-        configuration.RegisterComponents(_ => _.AddSingleton(resetEvent));
         attachments.UseTransportConnectivity();
-        return await Endpoint.Start(configuration);
+        var builder = Host.CreateApplicationBuilder();
+        builder.Services.AddSingleton(resetEvent);
+        builder.Services.AddNServiceBusEndpoint(configuration);
+        var host = builder.Build();
+        await host.StartAsync();
+        return host;
     }
 
     static Task<Table> AmendMessage(HttpContext context, PassthroughMessage message) =>
