@@ -22,6 +22,9 @@ public abstract class MessageLoop :
         tokenSource = new();
         var cancel = tokenSource.Token;
 
+        // Do not pass cancel to Task.Run: if it is signaled before the thread pool starts the
+        // delegate (e.g. disposed straight after Start) the returned task would be canceled,
+        // surfacing as a TaskCanceledException from Stop. The loop observes cancel internally.
         task = Task.Run(async () =>
             {
                 while (!cancel.IsCancellationRequested)
@@ -41,8 +44,7 @@ public abstract class MessageLoop :
                         errorCallback(ex);
                     }
                 }
-            },
-            cancel);
+            });
     }
 
     protected abstract Task RunBatch(Cancel cancel);
