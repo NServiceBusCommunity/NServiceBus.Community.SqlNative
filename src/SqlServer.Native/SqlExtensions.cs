@@ -12,7 +12,7 @@
 
     public static bool IsKeyViolation(this SqlException sqlException)
     {
-        var exception = (dynamic) sqlException;
+        dynamic exception = sqlException;
         //Unique Key Violation = 2627
         return exception.Number == 2627;
     }

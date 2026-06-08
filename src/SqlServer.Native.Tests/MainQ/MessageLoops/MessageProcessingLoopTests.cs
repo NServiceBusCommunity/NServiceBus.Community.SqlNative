@@ -6,6 +6,54 @@
     string table = "MessageProcessingLoopTests";
 
     [Test]
+    public async Task TEMP_repro()
+    {
+        await SqlConnection.DropTable(null, table);
+        var m = new QueueManager(table, SqlConnection);
+        await m.Create();
+        await SendMessages();
+
+        // Vary the gap between Start and Dispose so disposal frequently lands while the
+        // loop is mid-SQL-op (open/read), probing whether cancellation leaks to errorCallback.
+        int[] sleeps = [0, 1, 2, 5, 10, 20, 40, 80, 150];
+        for (var i = 0; i < 400; i++)
+        {
+            Exception? captured = null;
+            var loop = new MessageProcessingLoop(
+                table: table,
+                startingRow: 1,
+                connectionBuilder: Connection.OpenAsyncConnection,
+                callback: (_, _, _) => Task.CompletedTask,
+                errorCallback: e => { captured = e; },
+                persistRowVersion: (_, _, _) => Task.CompletedTask
+            );
+            loop.Start();
+            Thread.Sleep(sleeps[i % sleeps.Length]);
+            await loop.DisposeAsync();
+            // give any post-dispose error a chance to surface
+            Thread.Sleep(5);
+            if (captured != null)
+            {
+                throw new($"Iteration {i} (sleep {sleeps[i % sleeps.Length]}ms) captured:\n---INNER CHAIN---\n{Flatten(captured)}");
+            }
+        }
+    }
+
+    static string Flatten(Exception e)
+    {
+        var sb = new System.Text.StringBuilder();
+        var cur = (Exception?)e;
+        while (cur != null)
+        {
+            sb.AppendLine($"[{cur.GetType().FullName}] {cur.Message}");
+            sb.AppendLine(cur.StackTrace);
+            cur = cur.InnerException;
+        }
+
+        return sb.ToString();
+    }
+
+    [Test]
     public async Task Should_not_throw_when_run_over_end()
     {
         await SqlConnection.DropTable(null, table);
