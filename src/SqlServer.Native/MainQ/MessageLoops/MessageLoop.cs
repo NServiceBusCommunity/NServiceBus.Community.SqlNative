@@ -44,7 +44,7 @@ public abstract class MessageLoop :
                         errorCallback(ex);
                     }
                 }
-            });
+            }, cancel);
     }
 
     protected abstract Task RunBatch(Cancel cancel);

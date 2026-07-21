@@ -59,14 +59,18 @@ public class RequestParserTests :
     static FormCollection Form()
     {
         var attachmentBytes = "Attachment Text"u8.ToArray();
-        return new(
-            new()
-            {
-                {"message", "{}"}
-            },
-            new FormFileCollection
-            {
-                new FormFile(new MemoryStream(attachmentBytes), 0, attachmentBytes.Length, "attachment", "attachment.txt")
-            });
+        return
+        [
+            with(new()
+                {
+                    {
+                        "message", "{}"
+                    }
+                },
+                new FormFileCollection
+                {
+                    new FormFile(new MemoryStream(attachmentBytes), 0, attachmentBytes.Length, "attachment", "attachment.txt")
+                })
+        ];
     }
 }
