@@ -6,10 +6,11 @@
     <AssemblyVersion>1.0.0</AssemblyVersion>
     <Description>Low level .net wrapper for the SQL Server transport.</Description>
     <PackageTags>NServiceBus, Native, Raw</PackageTags>
-    <NoWarn>CS1591;CS1573;NU1608;NU1109</NoWarn>
+    <NoWarn>CS1591;CS1573;NU1608;NU1109;SC023</NoWarn>
     <ResolveAssemblyReferencesSilent>true</ResolveAssemblyReferencesSilent>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+    <Verify_SponsorshipLicenseIgnored>true</Verify_SponsorshipLicenseIgnored>
   </PropertyGroup>
 </Project>
