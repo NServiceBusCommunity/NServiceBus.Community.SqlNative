@@ -24,7 +24,13 @@
             expireWindow,
             frequencyToRunCleanup: TimeSpan.FromMilliseconds(10));
         cleaner.Start();
-        Thread.Sleep(100);
+        var timeout = DateTime.UtcNow.AddSeconds(10);
+        while (SqlHelper.ReadDuplicateData("Deduplication", SqlConnection).Count() > 1 &&
+               DateTime.UtcNow < timeout)
+        {
+            await Task.Delay(50);
+        }
+
         await cleaner.Stop();
         await Verify(SqlHelper.ReadDuplicateData("Deduplication", SqlConnection))
             .DontScrubGuids();
