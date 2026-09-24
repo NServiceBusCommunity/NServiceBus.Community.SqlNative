@@ -23,7 +23,7 @@ dotnet test src --configuration Release --filter "FullyQualifiedName~TestClassNa
 
 Tests require SQL Server 2019+. The connection string is configured in `src/Shared/Connection.cs`:
 - Local development: `Server=.\;Database=NServiceBusNativeTests;Integrated Security=True`
-- CI (AppVeyor): `Server=(local)\SQL2019;Database=master;User ID=sa;Password=Password12!`
+- CI (GitHub Actions): `Server=(localdb)\MSSQLLocalDB;Database=master;Integrated Security=True`
 
 Create the database before running tests: `CREATE DATABASE NServiceBusNativeTests`
 

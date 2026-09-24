@@ -6,9 +6,9 @@ public static class Connection
 
     static Connection()
     {
-        if (Environment.GetEnvironmentVariable("AppVeyor") == "True")
+        if (Environment.GetEnvironmentVariable("GITHUB_ACTIONS") == "true")
         {
-            ConnectionString = @"Server=(local)\SQL2019;Database=master;User ID=sa;Password=Password12!;Max Pool Size=100;TrustServerCertificate=True";
+            ConnectionString = @"Server=(localdb)\MSSQLLocalDB;Database=master;Integrated Security=True;Max Pool Size=100;TrustServerCertificate=True";
             return;
         }
 
