@@ -14,7 +14,7 @@
     <PackageVersion Include="NServiceBus.Community.Attachments.Sql" Version="19.6.0" />
     <PackageVersion Include="NServiceBus.Community.Attachments.Sql.Raw" Version="19.6.0" />
     <PackageVersion Include="NServiceBus.Newtonsoft.Json" Version="5.0.1" />
-    <PackageVersion Include="NServiceBus.Transport.SqlServer" Version="9.1.0" />
+    <PackageVersion Include="NServiceBus.Transport.SqlServer" Version="9.1.1" />
     <PackageVersion Include="ProjectDefaults" Version="1.0.184" />
     <PackageVersion Include="Polyfill" Version="11.4.5" />
     <PackageVersion Include="Sbom" Version="0.3.1" />
