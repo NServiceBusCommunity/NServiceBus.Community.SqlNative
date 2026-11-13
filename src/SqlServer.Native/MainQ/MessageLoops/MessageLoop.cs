@@ -49,16 +49,18 @@ public abstract class MessageLoop :
 
     protected abstract Task RunBatch(Cancel cancel);
 
-    public Task Stop()
+    public async Task Stop()
     {
-        tokenSource?.Cancel();
-        tokenSource?.Dispose();
-        if (task == null)
+        if (tokenSource != null)
         {
-            return Task.CompletedTask;
+            await tokenSource.CancelAsync();
+            tokenSource.Dispose();
         }
 
-        return task;
+        if (task != null)
+        {
+            await task;
+        }
     }
 
     public ValueTask DisposeAsync() => new(Stop());
