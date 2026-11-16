@@ -35,7 +35,7 @@
             return;
         }
 
-        tokenSource.Cancel();
+        await tokenSource.CancelAsync();
         try
         {
             if (task != null)
