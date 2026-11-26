@@ -10,10 +10,7 @@
         return builder.ToString();
     }
 
-    public static bool IsKeyViolation(this SqlException sqlException)
-    {
-        dynamic exception = sqlException;
-        //Unique Key Violation = 2627
-        return exception.Number == 2627;
-    }
+    //Unique Key Violation = 2627
+    public static bool IsKeyViolation(this SqlException sqlException) =>
+        sqlException.Number == 2627;
 }
